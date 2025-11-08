@@ -3,8 +3,12 @@ import "./config/_env.js";
 import express from "express";
 import cors from "cors";
 
+import routes from "./routes/index.js";
+
 import { connectRedis, redisConnection } from "./config/redis.js";
 import { workerStartAll } from "./workers/_workerStartAll.js";
+
+import getTimestamp from "./utils/timestamp.js";
 
 async function startServer() {
   const app = express();
@@ -15,21 +19,21 @@ async function startServer() {
   app.use(express.json());
 
   //111/////////////////////////////// --- ROUTES
-
+  app.use("/api", routes);
 
   //111/////////////////////////////// --- REDIS CONNECT
   try {
     await connectRedis();
-    console.log(`Redis connected successfully`);
+    console.log(`[${getTimestamp()}] Redis connected successfully`);
     workerStartAll(redisConnection);
 
   } catch (e) {
-    console.error(`Redis failed to connect:`, e);
+    console.error(`[${getTimestamp()}] Redis failed to connect:`, e);
   }
 
   //111/////////////////////////////// --- SERVER START
   const server = app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}...`);
+    console.log(`[${getTimestamp()}] Listening on port ${PORT}...`);
   });
 
   //111/////////////////////////////// --- ROOT
