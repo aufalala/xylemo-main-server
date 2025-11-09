@@ -8,11 +8,17 @@ export function startChatReceiverWorker(redisConnection) {
     "chat-receiver-queue",
     async (job) => {
       console.log(`[${getTimestamp()}] Starting job, ${job.name}, ${job.id}`);
-      const { time, username, text, platform } = job.data;
-      console.log(time);
-      console.log(username);
-      console.log(text);
-      console.log(platform);
+      
+      const { time, username, platformId, text, platform, nickname = null } = job.data;
+      
+      console.log({
+            time,
+            username,
+            platformId,
+            text,
+            platform,
+            nickname,
+          });
     },
     { connection: redisConnection }
   );
