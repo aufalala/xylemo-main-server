@@ -9,6 +9,7 @@ import { connectRedis, redisConnection } from "./config/redis.js";
 import { workerStartAll } from "./workers/_workerStartAll.js";
 
 import getTimestamp from "./utils/timestamp.js";
+import { connectDB } from "./config/db.js";
 
 async function startServer() {
   const app = express();
@@ -20,6 +21,15 @@ async function startServer() {
 
   //111/////////////////////////////// --- ROUTES
   app.use("/api", routes);
+
+  //111/////////////////////////////// --- MONGODB ATLAS CONNECT
+  try {
+    await connectDB();
+    console.log(`[${getTimestamp()}] MongoDB connected successfully`);
+
+  } catch (e) {
+    console.error(`[${getTimestamp()}] MongoDB failed to connect:`, e);
+  }
 
   //111/////////////////////////////// --- REDIS CONNECT
   try {
