@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   },
   permLevel: {
     type: Number,
-    enum: [1, 2], // 1 = admin, 2 = promoter
+    enum: [1, 2], // 1 = admin (highest permLevel), 2 = promoter
     default: 2,
   },
 });
