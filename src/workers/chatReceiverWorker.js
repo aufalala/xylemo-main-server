@@ -2,7 +2,7 @@ import { Worker } from "bullmq";
 import { workerEventListeners } from "./_workerEventListener.js";
 
 import getTimestamp from "../utils/timestamp.js";
-import { checkChatOrderCont } from "../controllers/chatCont.js";
+import { processChatWorkflow } from "../workflows/chatWorkflow.js";
 
 export function startChatReceiverWorker(redisConnection) {
   const chatReceiverWorker = new Worker(
@@ -10,7 +10,7 @@ export function startChatReceiverWorker(redisConnection) {
     async (job) => {
       console.log(`[${getTimestamp()}] Starting job, ${job.name}, ${job.id}`);
 
-      const { timeUTC, username, platformId, text, platform, nickname = null } = job.data;
+      // const { timeUTC, username, platformId, text, platform, nickname = null } = job.data;
       
       // console.log({
       //       timeUTC,
@@ -22,12 +22,11 @@ export function startChatReceiverWorker(redisConnection) {
       //     });
 
       try {
-        checkChatOrderCont(job.data)
+        await processChatWorkflow(job.data)
+
       } catch (e) {
         console.error(`[${getTimestamp}] checkChatOrderCont FAILED`, e);
       }
-
-
     },
     { connection: redisConnection }
   );
