@@ -13,7 +13,7 @@ export function startChatReceiverWorker(redisConnection) {
         await processChatWorkflow({ chatData: job.data, caller: job.id });
 
       } catch (e) {
-        console.error(`[${getTimestamp}] checkChatOrderCont FAILED`, e);
+        console.error(`[${getTimestamp}] processChatWorkflow FAILED`, e);
       }
     },
     { connection: redisConnection }

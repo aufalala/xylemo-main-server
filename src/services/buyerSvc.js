@@ -8,7 +8,7 @@ export async function getBuyerByNameAndPlatformSvc({ buyerName, platform, caller
       buyerName,
       platform,
     });
-    if (buyer) console.log(`[${getTimestamp()}] [${caller}] [getBuyerByNameAndPlatform] Buyer found: ${buyer._id}`);
+    if (buyer) console.log(`[${getTimestamp()}] [${caller}] [getBuyerByNameAndPlatform] Buyer ${buyerName} found: ${buyer._id}`);
     return buyer;
     
   } catch (e) {
