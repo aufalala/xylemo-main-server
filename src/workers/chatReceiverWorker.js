@@ -8,21 +8,9 @@ export function startChatReceiverWorker(redisConnection) {
   const chatReceiverWorker = new Worker(
     "chat-receiver-queue",
     async (job) => {
-      console.log(`[${getTimestamp()}] Starting job, ${job.name}, ${job.id}`);
-
-      // const { timeUTC, username, platformId, text, platform, nickname = null } = job.data;
-      
-      // console.log({
-      //       timeUTC,
-      //       username,
-      //       platformId,
-      //       text,
-      //       platform,
-      //       nickname,
-      //     });
-
+      console.log(`[${getTimestamp()}] Starting job, ${job.name}, [${job.id}]`);
       try {
-        await processChatWorkflow(job.data)
+        await processChatWorkflow({ chatData: job.data, caller: job.id });
 
       } catch (e) {
         console.error(`[${getTimestamp}] checkChatOrderCont FAILED`, e);
