@@ -9,6 +9,7 @@ import orderRoute from "./orderRoute.js";
 import productRoute from "./productRoute.js";
 import ingestRoute from "./ingestRoute.js";
 import userRoute from "./userRoute.js";
+import sseRoute from "./sseRoute.js";
 
 router.use("/auth", authRoute);
 router.use("/buyer", buyerRoute);
@@ -17,5 +18,6 @@ router.use("/order", orderRoute);
 router.use("/product", productRoute);
 router.use("/ingest", ingestRoute);
 router.use("/user", userRoute);
+router.use("/sse", sseRoute);
 
 export default router;

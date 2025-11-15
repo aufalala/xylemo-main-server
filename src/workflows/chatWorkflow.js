@@ -3,8 +3,9 @@ import { createNewBuyerSvc, getBuyerByNameAndPlatformSvc } from "../services/buy
 import { checkChatOrderSvc } from "../services/chatSvc.js";
 import { createOrderSvc } from "../services/orderSvc.js";
 import { deductProductStockSvc, getProductForOrderSvc } from "../services/productSvc.js";
+import { broadcast } from "../sse/sseManager.js";
 
-import getTimestamp from "../utils/timestamp.js";
+import { getTimestamp } from "../utils/timestamp.js";
 
 export async function processChatWorkflow({ chatData, caller = null }) {
   console.log(`[${getTimestamp()}] [${caller}] [processChatWorkflow] Starting chat workflow`);
@@ -27,8 +28,14 @@ export async function processChatWorkflow({ chatData, caller = null }) {
     checkedChat = await checkChatOrderSvc({ text: chatData.text, caller });
     if (!checkedChat.isOrder) {
       try {
-        await chat.save(); // DB ACCESS CHATS
+        const savedChat = await chat.save(); // DB ACCESS CHATS
         console.log(`[${getTimestamp()}] [${caller}] [processChatWorkflow] Chat saved to MongoDB: ${chat._id}`);
+      
+        broadcast({
+          type: "new_chat",
+          chat: savedChat,
+        }, caller);
+
         console.log(`[${getTimestamp()}] [${caller}] [processChatWorkflow] End chat workflow`);
 
       } catch (e) {
@@ -40,8 +47,14 @@ export async function processChatWorkflow({ chatData, caller = null }) {
   } catch (e) {
     console.error(`[${getTimestamp()}] [${caller}] [processChatWorkflow] checkChatOrder failed:`, e);
     try {
-      await chat.save(); // DB ACCESS CHATS
+      const savedChat = await chat.save(); // DB ACCESS CHATS
       console.log(`[${getTimestamp()}] [${caller}] [processChatWorkflow] Chat saved to MongoDB: ${chat._id}`);
+
+      broadcast({
+        type: "new_chat",
+        chat: savedChat,
+      }, caller);
+      
       console.log(`[${getTimestamp()}] [${caller}] [processChatWorkflow] End chat workflow`);
 
     } catch (e) {
@@ -97,13 +110,19 @@ export async function processChatWorkflow({ chatData, caller = null }) {
 
   } finally {
     try {
-      await chat.save(); // DB ACCESS CHATS
+      const savedChat = await chat.save(); // DB ACCESS CHATS
       console.log(`[${getTimestamp()}] [${caller}] [processChatWorkflow] Chat saved to MongoDB: ${chat._id}`);
+
+      broadcast({
+        type: "new_chat",
+        chat: savedChat,
+      }, caller);
+
       console.log(`[${getTimestamp()}] [${caller}] [processChatWorkflow] End chat workflow`);
       
     } catch (e) {
       console.error(`[${getTimestamp()}] [${caller}] [processChatWorkflow] Failed to save chat to MongoDB:`, e);
       return;
     }
-  }
+  } 
 }
