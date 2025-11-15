@@ -1,7 +1,22 @@
 
 import ChatModel from "../models/ChatModel.js";
 
-import getTimestamp from "../utils/timestamp.js";
+import { getTimestamp } from "../utils/timestamp.js";
+
+export async function getChatByDateSvc({ start, end, extraFilter = {} }) {
+  try {
+    const filter = {
+      timeUTC: { $gte: start, $lte: end },
+      ...extraFilter,
+    };
+
+    return await ChatModel.find(filter).sort({ timeUTC: 1 });
+
+  } catch (e) {
+    console.error(`[${getTimestamp()}] getChatByDateSvc FAILED:`, e);
+    throw e; 
+  }
+}
 
 export async function checkChatOrderSvc({ text, caller }) {
   try {
