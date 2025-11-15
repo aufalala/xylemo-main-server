@@ -1,6 +1,6 @@
 import BuyerModel from "../models/BuyerModel.js";
 
-import getTimestamp from "../utils/timestamp.js";
+import { getTimestamp } from "../utils/timestamp.js";
 
 export async function getBuyerByNameAndPlatformSvc({ buyerName, platform, caller = null }) {
   try {

@@ -8,7 +8,7 @@ import routes from "./routes/index.js";
 import { connectRedis, redisConnection } from "./config/redis.js";
 import { workerStartAll } from "./workers/_workerStartAll.js";
 
-import getTimestamp from "./utils/timestamp.js";
+import { getTimestamp } from "./utils/timestamp.js";
 import { connectDB } from "./config/db.js";
 import { createInitialAdmin } from "./controllers/authCont.js";
 

@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/UserModel.js"; 
 import { JWT_SECRET } from "../config/_env.js";
 
-import getTimestamp from "../utils/timestamp.js";
+import { getTimestamp } from "../utils/timestamp.js";
 
 const saltRounds = 12;
 

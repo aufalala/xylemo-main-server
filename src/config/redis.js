@@ -1,7 +1,7 @@
 import IORedis from "ioredis";
 import { REDIS_URL } from "./_env.js";
 
-import getTimestamp from "../utils/timestamp.js";
+import { getTimestamp } from "../utils/timestamp.js";
 
 export const redisConnection = new IORedis(REDIS_URL, {
   maxRetriesPerRequest: null,

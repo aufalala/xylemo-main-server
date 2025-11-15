@@ -1,7 +1,7 @@
 import ProductModel from "../models/ProductModel.js";
 import OrderModel from "../models/OrderModel.js";
 
-import getTimestamp from "../utils/timestamp.js";
+import { getTimestamp } from "../utils/timestamp.js";
 
 export async function createOrderSvc({ buyerId, productId, quantity, orderDate = Date.now(), caller = null}) {
 

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { MONGODB_URI } from "./_env.js";
 
-import getTimestamp from "../utils/timestamp.js";
+import { getTimestamp } from "../utils/timestamp.js";
 
 mongoose.connection.on("connected", () => console.log(`[${getTimestamp()}] Connected to MongoDB: ${mongoose.connection.name}`));
 mongoose.connection.on("error", (err) => console.error(`[${getTimestamp()}] MongoDB error:`, err));

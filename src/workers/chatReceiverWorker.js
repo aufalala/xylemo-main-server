@@ -1,7 +1,7 @@
 import { Worker } from "bullmq";
 import { workerEventListeners } from "./_workerEventListener.js";
 
-import getTimestamp from "../utils/timestamp.js";
+import { getTimestamp } from "../utils/timestamp.js";
 import { processChatWorkflow } from "../workflows/chatWorkflow.js";
 
 export function startChatReceiverWorker(redisConnection) {

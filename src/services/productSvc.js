@@ -1,6 +1,6 @@
 import ProductModel from "../models/ProductModel.js";
 
-import getTimestamp from "../utils/timestamp.js";
+import { getTimestamp } from "../utils/timestamp.js";
 
 export async function getProductsSvc({filter = null}) {
   try {

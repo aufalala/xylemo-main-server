@@ -1,4 +1,4 @@
-import getTimestamp from "../utils/timestamp.js";
+import { getTimestamp } from "../utils/timestamp.js";
 
 export function workerEventListeners(workerName, workerInstance) {
   const handleWorkerEvent = (event, ...args) => {
