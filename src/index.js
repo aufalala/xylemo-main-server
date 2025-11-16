@@ -2,6 +2,7 @@ import "./config/_env.js";
 
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import routes from "./routes/index.js";
 
@@ -18,6 +19,7 @@ async function startServer() {
 
   //111/////////////////////////////// --- MIDDLEWARE
   app.use(cors());
+  app.use(cookieParser());
   app.use(express.json());
 
   //111/////////////////////////////// --- ROUTES
