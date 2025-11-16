@@ -7,7 +7,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 export function getTimestamp(tz = Intl.DateTimeFormat().resolvedOptions().timeZone) {  
-  dayjs().tz(tz).format('YYYY-MM-DD HH:mm:ss.SSS');
+  return dayjs().tz(tz).format('YYYY-MM-DD HH:mm:ss.SSS');
 }
 
 export function isToday(utcMs) {
