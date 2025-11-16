@@ -3,7 +3,7 @@ import { createNewBuyerSvc, getBuyerByNameAndPlatformSvc } from "../services/buy
 import { checkChatOrderSvc } from "../services/chatSvc.js";
 import { createOrderSvc } from "../services/orderSvc.js";
 import { deductProductStockSvc, getProductForOrderSvc } from "../services/productSvc.js";
-import { broadcast } from "../sse/sseManager.js";
+import { broadcastCheckToday } from "../sse/sseManager.js";
 
 import { getTimestamp } from "../utils/timestamp.js";
 
@@ -31,7 +31,7 @@ export async function processChatWorkflow({ chatData, caller = null }) {
         const savedChat = await chat.save(); // DB ACCESS CHATS
         console.log(`[${getTimestamp()}] [${caller}] [processChatWorkflow] Chat saved to MongoDB: ${chat._id}`);
       
-        broadcast({
+        broadcastCheckToday({
           type: "new_chat",
           chat: savedChat,
         }, caller);
@@ -50,7 +50,7 @@ export async function processChatWorkflow({ chatData, caller = null }) {
       const savedChat = await chat.save(); // DB ACCESS CHATS
       console.log(`[${getTimestamp()}] [${caller}] [processChatWorkflow] Chat saved to MongoDB: ${chat._id}`);
 
-      broadcast({
+      broadcastCheckToday({
         type: "new_chat",
         chat: savedChat,
       }, caller);
@@ -113,7 +113,7 @@ export async function processChatWorkflow({ chatData, caller = null }) {
       const savedChat = await chat.save(); // DB ACCESS CHATS
       console.log(`[${getTimestamp()}] [${caller}] [processChatWorkflow] Chat saved to MongoDB: ${chat._id}`);
 
-      broadcast({
+      broadcastCheckToday({
         type: "new_chat",
         chat: savedChat,
       }, caller);

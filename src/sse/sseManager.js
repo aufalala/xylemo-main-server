@@ -12,7 +12,7 @@ export function removeClient(client) {
   clients.delete(client);
 }
 
-export function broadcast(data, caller) {
+export function broadcastCheckToday(data, caller) {
   if (isToday(data.chat.timeUTC)) {
     const payload = `data: ${JSON.stringify(data)}\n\n`;
     console.log(`[${getTimestamp()}] [${caller}] [broadcast] Broadcasted`);
