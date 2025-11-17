@@ -16,9 +16,15 @@ import { createInitialAdmin } from "./controllers/authCont.js";
 async function startServer() {
   const app = express();
   const PORT = process.env.PORT || 3000;
+  const clientURL = process.env.NODE_ENV === 'development'
+  ? process.env.CLIENT_URL_DEV
+  : process.env.CLIENT_URL_PROD;
 
   //111/////////////////////////////// --- MIDDLEWARE
-  app.use(cors());
+  app.use(cors({
+    origin: clientURL,
+    credentials: true,
+  }));
   app.use(cookieParser());
   app.use(express.json());
 
