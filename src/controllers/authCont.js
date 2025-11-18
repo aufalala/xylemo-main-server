@@ -99,8 +99,8 @@ export async function userSignIn(req, res) {
 
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: "strict",
+    secure: process.env.NODE_ENV === 'development' ? false : true,
+    sameSite: process.env.NODE_ENV === 'development' ? "strict": "none",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
 
@@ -127,8 +127,12 @@ export async function userRefreshToken(req, res) {
 
     const newAccessToken = generateAccessToken(user);
 
-    return res.json({ accessToken: newAccessToken });
-  } catch (err) {
+    return res.json({ 
+      accessToken: newAccessToken,
+      user: { username: user.username, permLevel: user.permLevel } // <-- send user
+    });
+
+  } catch (e) {
     return res.status(401).json({ error: "Invalid or expired refresh token" });
   }
 }
