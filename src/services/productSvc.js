@@ -70,3 +70,35 @@ export async function deductProductStockSvc({ product, quantity, caller = null }
     throw e;
   }
 }
+
+export async function updateProductSvc({ productId, newValues, caller = null }) {
+  try {
+    const updatedProduct = await ProductModel.findByIdAndUpdate(
+      productId,
+      {
+        ...newValues,
+        updatedAt: Date.now(),
+      },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedProduct) {
+      throw new Error(
+        `[${getTimestamp()}] [${caller}] updateProductSvc FAILED: Product ${productId} not found`
+      );
+    }
+
+    console.log(
+      `[${getTimestamp()}] [${caller}] updateProductSvc: Product ${productId} updated ->`,
+      newValues
+    );
+
+    return updatedProduct;
+
+  } catch (e) {
+    console.error(
+      `[${getTimestamp()}] [${caller}] updateProductSvc FAILED:`, e
+    );
+    throw e;
+  }
+}
