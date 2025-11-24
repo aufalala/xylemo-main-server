@@ -13,15 +13,34 @@ export function removeClient(client) {
 }
 
 export function broadcastCheckToday(data, caller) {
-  if (isToday(data.chat.timeUTC)) {
-    const payload = `data: ${JSON.stringify(data)}\n\n`;
-    console.log(`[${getTimestamp()}] [${caller}] [broadcast] Broadcasted`);
-    
-    for (const client of clients) {
-      client.res.write(payload);
-    }
-  } else {
+  if (!isToday(data.chat.timeUTC)) {
     console.log(`[${getTimestamp()}] [${caller}] [broadcast] Not broadcasted`);
+    return;
   }
 
+  const payload = `data: ${JSON.stringify(data)}\n\n`;
+  console.log(`[${getTimestamp()}] [${caller}] [broadcast] Broadcasted`);
+
+  for (const client of clients) {
+    try {
+      client.res.write(payload);
+    } catch (err) {
+      console.error(`[${getTimestamp()}] [${caller}] Failed to send to client ${client.id}:`, err);
+      clients.delete(client);
+    }
+  }
+}
+
+export function broadcastEvent(data, caller) {
+  const payload = `data: ${JSON.stringify(data)}\n\n`;
+  console.log(`[${getTimestamp()}] [${caller}] [broadcast] Broadcasted`);
+
+  for (const client of clients) {
+    try {
+      client.res.write(payload);
+    } catch (err) {
+      console.error(`[${getTimestamp()}] [${caller}] Failed to send to client ${client.id}:`, err);
+      clients.delete(client);
+    }
+  }
 }
