@@ -9,7 +9,7 @@ export async function getProductsCont({ req, res, filter = null }) {
     return res.status(200).json(products);
     
   } catch (e) {
-    res.status(500).json({ err: err.message });
+    res.status(500).json({ err: e.message });
   }
 }
 
@@ -26,7 +26,7 @@ export async function createProductCont({ req, res }) {
     return res.status(200).json(product);
 
   } catch (e) {
-    res.status(500).json({ err: err.message });
+    res.status(500).json({ err: e.message });
   }
 }
 

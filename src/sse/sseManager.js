@@ -24,8 +24,8 @@ export function broadcastCheckToday(data, caller) {
   for (const client of clients) {
     try {
       client.res.write(payload);
-    } catch (err) {
-      console.error(`[${getTimestamp()}] [${caller}] Failed to send to client ${client.id}:`, err);
+    } catch (e) {
+      console.error(`[${getTimestamp()}] [${caller}] Failed to send to client ${client.id}:`, e);
       clients.delete(client);
     }
   }
@@ -38,8 +38,8 @@ export function broadcastEvent(data, caller) {
   for (const client of clients) {
     try {
       client.res.write(payload);
-    } catch (err) {
-      console.error(`[${getTimestamp()}] [${caller}] Failed to send to client ${client.id}:`, err);
+    } catch (e) {
+      console.error(`[${getTimestamp()}] [${caller}] Failed to send to client ${client.id}:`, e);
       clients.delete(client);
     }
   }
