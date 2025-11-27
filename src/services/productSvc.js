@@ -1,4 +1,5 @@
 import ProductModel from "../models/ProductModel.js";
+import { broadcastEvent } from "../sse/sseManager.js";
 
 import { getTimestamp } from "../utils/timestamp.js";
 
@@ -92,6 +93,11 @@ export async function updateProductSvc({ productId, newValues, caller = null }) 
       `[${getTimestamp()}] [${caller}] updateProductSvc: Product ${productId} updated ->`,
       newValues
     );
+
+    broadcastEvent({
+      type: "update_product",
+      product: updatedProduct,
+    }, "updateProductSvc");
 
     return updatedProduct;
 

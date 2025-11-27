@@ -1,5 +1,4 @@
 import { createProductSvc, getProductsSvc, updateProductSvc } from "../services/productSvc.js";
-import { broadcastEvent } from "../sse/sseManager.js";
 
 import { getTimestamp } from "../utils/timestamp.js";
 
@@ -40,11 +39,6 @@ export async function updateProductCont({ req, res }) {
       newValues,
       caller: "updateProductCont",
     });
-
-    broadcastEvent({
-      type: "update_product",
-      product: updatedProduct,
-    }, "updateProductCont");
 
     return res.status(200).json(updatedProduct);
 
