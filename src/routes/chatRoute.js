@@ -7,13 +7,13 @@ import { getChatByDateCont, getChatTodayCont } from "../controllers/chatCont.js"
 const router = express.Router();
 
 router.get('/today', 
-    // verifyToken, requirePermLevel(2), 
+    verifyToken, requirePermLevel(2), 
     async (req, res) => {
   await getChatTodayCont({ req, res });
 });
 
 router.get('/by-date', 
-    // verifyToken, requirePermLevel(2), 
+    verifyToken, requirePermLevel(2), 
     async (req, res) => {
   await getChatByDateCont({ req, res });
 });

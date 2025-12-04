@@ -8,6 +8,7 @@ import {
   REFRESH_TOKEN_SECRET,
   ACCESS_TOKEN_EXPIRES,
   REFRESH_TOKEN_EXPIRES,
+  DEFAULT_ADMIN_PASSWORD,
 } from "../config/_env.js";
 
 import { getTimestamp } from "../utils/timestamp.js";
@@ -17,13 +18,13 @@ const saltRounds = 12;
 export async function createInitialAdmin() {
   const count = await User.countDocuments();
   if (count === 0) {
-    const hashedPassword = await bcrypt.hash("admin123", 12);
+    const hashedPassword = await bcrypt.hash(DEFAULT_ADMIN_PASSWORD, 12);
     await User.create({
       username: "admin",
       password: hashedPassword,
       permLevel: 1,
     });
-    console.log(`[${getTimestamp()}] Default admin created: username=admin, password=admin123`);
+    console.log(`[${getTimestamp()}] Default admin created`);
   }
 }
 

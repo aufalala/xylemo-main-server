@@ -6,14 +6,13 @@ import { requirePermLevel } from "../middleware/requirePermLevel.js";
 import { userRefreshToken, userSignIn, userSignOut, userSignUp } from "../controllers/authCont.js";
 
 router.get('/test-auth',
-  verifyToken,
-  // requirePermLevel(1),
+  verifyToken, requirePermLevel(1),
   async (req, res) => {
   res.sendStatus(200);
 });
 
 router.post('/signup',
-  // verifyToken, requirePermLevel(1),
+  verifyToken, requirePermLevel(1),
   async (req, res) => {
   await userSignUp(req, res);
 });
